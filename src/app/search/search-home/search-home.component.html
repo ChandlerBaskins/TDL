@@ -1,0 +1,46 @@
+<h3 class="text-gray-300 text-4xl text-center mt-8 font-mono">
+  Search for any Github user!
+</h3>
+<div class="flex justify-center mt-6">
+  <input
+    (keyup.enter)="onSubmit()"
+    placeholder="Search Github Users"
+    class="rounded-full w-96 mr-1 p-2"
+    [formControl]="control"
+    type="text"
+  />
+
+  <button
+    class="px-3 text-gray-300 bg-gray-700 rounded-2xl ml-1 hover:bg-gray-400 hover:text-gray-200 transition-all duration-300"
+    (click)="onSubmit()"
+  >
+    SUBMIT
+  </button>
+</div>
+<div
+  *ngIf="searchResults$ | async as searchResults"
+  class="flex justify-center mt-4 flex-col"
+>
+  <select (change)="sortAndOrder($event)" class="bg-gray-700 w-60 self-center">
+    <option [value]="command.BestMatch">Best match</option>
+    <option [value]="command.MostFollowers">Most folowers</option>
+    <option [value]="command.LeastFollowers">Fewest folowers</option>
+    <option [value]="command.MostRecentJoin">Most recently joined</option>
+    <option [value]="command.LeastRecentJoin">Least recently joined</option>
+    <option [value]="command.MostRepos">Most repositories</option>
+    <option [value]="command.LeastRepos">Least repositories</option>
+  </select>
+  <div class="text-white">
+    <div *ngIf="searchResults.status === 'loading'">Loading</div>
+    <div *ngIf="searchResults.status === 'error'">
+      {{ searchResults.errorMessage }}
+    </div>
+    <app-search-results
+      class="flex justify-center mt-4"
+      (changePage)="goToNextPage($event)"
+      (changeSort)="sortAndOrder($event)"
+      *ngIf="searchResults.status === 'success'"
+      [searchResults]="searchResults"
+    ></app-search-results>
+  </div>
+</div>

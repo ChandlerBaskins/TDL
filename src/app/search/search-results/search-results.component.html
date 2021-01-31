@@ -1,0 +1,61 @@
+<div>
+  <div>Current Page: {{ searchResults.data.pagingModel.currentPage }}</div>
+  <div
+    *ngFor="let result of searchResults.data.items"
+    class="flex rounded-xl bg-gray-800 m-2"
+  >
+    <img class="w-72 h-72" [src]="result.avatar_url" alt="" />
+    <div class="mx-4 self-center text-gray-400">
+      <a
+        target="_blank"
+        class="text-blue-800 text-lg"
+        [href]="result.html_url"
+        >{{ result.user.name || result.user.login }}</a
+      >
+      <p>{{ result.user.bio }}</p>
+      <p>
+        Joined
+        <span class="text-">{{
+          result.user.created_at | date: "fullDate"
+        }}</span>
+      </p>
+      <p>
+        Following
+        <span class="text-gray-600">{{ result.user.following || 0 }}</span>
+      </p>
+      <p>
+        Followers
+        <span class="text-gray-600">{{ result.user.followers || 0 }}</span>
+      </p>
+      <p>
+        Company
+        <span class="text-gray-600">{{ result.user.company || "NA" }}</span>
+      </p>
+      <p>
+        Repos #
+        <span class="text-gray-600">{{ result.user.public_repos || 0 }}</span>
+      </p>
+    </div>
+  </div>
+
+  <div>Total Pages = {{ searchResults.data.pagingModel.totalPages }}</div>
+  <div>Total users = {{ searchResults.data.total_count }}</div>
+
+  <button
+    [disabled]="searchResults.data.pagingModel.currentPage === 1"
+    class="p-2 bg-gray-300 m-1 text-gray-600"
+    (click)="goToLastPage()"
+  >
+    Last
+  </button>
+  <button
+    [disabled]="
+      searchResults.data.pagingModel.currentPage ===
+      searchResults.data.pagingModel.totalPages
+    "
+    class="p-2 bg-gray-300 m-1 text-gray-600"
+    (click)="goToNextPage()"
+  >
+    Next
+  </button>
+</div>
