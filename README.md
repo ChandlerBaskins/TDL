@@ -8,4 +8,5 @@
 * Angular 11.1
 * Tailwind
 * Tested with Spectator
+* Linted with ESLINT from [This amazing project](https://github.com/angular-eslint/angular-eslint)
 * CI with Github Actions
