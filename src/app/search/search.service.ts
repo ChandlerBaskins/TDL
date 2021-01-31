@@ -4,20 +4,11 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-  forkJoin,
-  of,
-  Subject,
-  throwError,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, forkJoin, of, Subject } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
-  filter,
   map,
-  shareReplay,
   startWith,
   switchMap,
   tap,
@@ -75,10 +66,10 @@ export interface Item {
   type: string;
   site_admin: boolean;
   score: number;
-  user: SpecificUser;
+  user?: SpecificUser;
 }
 
-interface SpecificUser {
+export interface SpecificUser {
   login: string;
   id: number;
   node_id: string;
@@ -117,14 +108,13 @@ export interface RawGitHubResponse {
   total_count: number;
   incomplete_results: boolean;
   items: Item[];
-  pagingModel: {
+  pagingModel?: {
     totalPages: number;
     currentPage: number;
   };
-  allData: SpecificUser[];
 }
 
-enum Status {
+export enum Status {
   Loading = 'loading',
   Error = 'error',
   Success = 'success',
@@ -161,9 +151,9 @@ export class SearchService {
   searchResults$ = combineLatest([
     this.searchTerm$.pipe(
       distinctUntilChanged(),
-      tap((_) => this.pageNumber$.next(1))
+      tap(() => this.pageNumber$.next(1))
     ),
-    this.sortResults$.pipe(tap((_) => this.pageNumber$.next(1))),
+    this.sortResults$.pipe(tap(() => this.pageNumber$.next(1))),
     this.pageNumber$,
   ]).pipe(
     switchMap(([searchTerm, sortResults, pageNumber]) => {
@@ -179,6 +169,15 @@ export class SearchService {
       return this.http
         .get<RawGitHubResponse>('https://api.github.com/search/users', params)
         .pipe(
+          catchError(() => {
+            const fallback: RawGitHubResponse = {
+              incomplete_results: true,
+              items: [],
+              total_count: 0,
+              pagingModel: { currentPage: 1, totalPages: 1 },
+            };
+            return of(fallback);
+          }),
           switchMap((rawResponse) =>
             forkJoin(
               rawResponse.items.map((item) =>

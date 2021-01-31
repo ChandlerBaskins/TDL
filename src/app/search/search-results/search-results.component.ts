@@ -11,12 +11,18 @@ export class SearchResultsComponent {
   @Output() changeSort = new EventEmitter();
 
   goToNextPage(): void {
-    const currentPage = this.searchResults.data.pagingModel.currentPage;
+    const currentPage = this.searchResults?.data?.pagingModel?.currentPage
+      ? this.searchResults?.data?.pagingModel?.currentPage
+      : 1;
+
     this.changePage.emit(currentPage + 1);
   }
 
   goToLastPage(): void {
-    const currentPage = this.searchResults.data.pagingModel.currentPage;
+    // We wanna assign to two here so we go back to the first page
+    const currentPage = this.searchResults?.data?.pagingModel?.currentPage
+      ? this.searchResults?.data?.pagingModel?.currentPage
+      : 2;
     this.changePage.emit(currentPage - 1);
   }
 }
