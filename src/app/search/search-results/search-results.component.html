@@ -1,10 +1,16 @@
 <div>
-  <div>Current Page: {{ searchResults.data.pagingModel.currentPage }}</div>
+  <div class="m-2">
+    Current Page: {{ searchResults.data.pagingModel.currentPage }}
+  </div>
   <div
     *ngFor="let result of searchResults.data.items"
     class="flex rounded-xl bg-gray-800 m-2"
   >
-    <img class="w-72 h-72" [src]="result.avatar_url" alt="" />
+    <img
+      class="w-40 rounded-l-xl md:w-72 md:h-72"
+      [src]="result.avatar_url"
+      alt=""
+    />
     <div class="mx-4 self-center text-gray-400">
       <a
         target="_blank"
@@ -38,8 +44,12 @@
     </div>
   </div>
 
-  <div>Total Pages = {{ searchResults.data.pagingModel.totalPages }}</div>
-  <div>Total users = {{ searchResults.data.total_count }}</div>
+  <div class="text-center">
+    Total Pages = {{ searchResults.data.pagingModel.totalPages }}
+  </div>
+  <div class="text-center">
+    Total users = {{ searchResults.data.total_count }}
+  </div>
 
   <button
     [disabled]="searchResults.data.pagingModel.currentPage === 1"
