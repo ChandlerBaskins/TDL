@@ -5,7 +5,7 @@
 
 # Stack
 
-*Angular 11.1
-*Tailwind
-*Tested with Spectator
-*CI with Github Actions
+* Angular 11.1
+* Tailwind
+* Tested with Spectator
+* CI with Github Actions
