@@ -2,6 +2,8 @@
   "name": "tdlproject",
   "version": "0.0.0",
   "scripts": {
+    "build:prod": "ng build --prod",
+    "test:prod": "ng test --browsers=ChromeHeadless --watch=false --code-coverage",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
