@@ -2,7 +2,7 @@ import { Spectator, createComponentFactory } from '@ngneat/spectator';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-describe('ButtonComponent', () => {
+describe('AppComp', () => {
   let spectator: Spectator<AppComponent>;
   const createComponent = createComponentFactory({
     component: AppComponent,
@@ -11,7 +11,7 @@ describe('ButtonComponent', () => {
 
   beforeEach(() => (spectator = createComponent()));
 
-  it('should have a success class by default', () => {
+  it('should render', () => {
     expect(spectator.component).toBeTruthy();
   });
 });
